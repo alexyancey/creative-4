@@ -1,5 +1,8 @@
 {
-	"scripts": {
-		"start": "node ../creative-4/app.js"
-	}
+  "scripts": {
+    "start": "node ../creative-4/app.js"
+  },
+  "dependencies": {
+    "socket.io": "^2.1.1"
+  }
 }
