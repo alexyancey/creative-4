@@ -11,6 +11,13 @@ app.get('/', function(req, res) {
     res.sendFile('index.html', { root: path.join(__dirname, 'views') });
 });
 
+io.on('connection', function(socket) {
+    console.log('User connected');
+    socket.on('disconnect', function() {
+        console.log('User disconnected');
+    })
+})
+
 http.listen(4000, function() {
     console.log('Creative Project 4 listening on port 4000!');
 })
