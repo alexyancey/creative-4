@@ -22,7 +22,7 @@ io.on('connection', function(socket) {
     })
 });
 
-http.listen(4000, function() {
+http.listen(4000, '0.0.0.0', function() {
     console.log('Creative Project 4 listening on port 4000!');
 })
 //app.listen(port, () => console.log('Creative Project 4 listening on port 4000!'));
