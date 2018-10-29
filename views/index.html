@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
     <script src="/javascripts/script.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <h1>Creative Node Project</h1>
@@ -14,9 +16,19 @@
     <form action="">
         <input id="msg" autocomplete="off" /><button>Send</button>
     </form>
-    <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io();
+        $(function () { 
+            var socket = io();
+            $("form").submit(function() {
+                socket.emit('chat message', $("#msg").val());
+                $("#msg").val("");
+                return false;
+            });
+            socket.on('chat message', function(msg) {
+                $("#messages").append($("<li>").text(msg));
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+        })
     </script>
 </body>
 </html>
