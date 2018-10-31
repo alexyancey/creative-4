@@ -26,15 +26,11 @@
         $(function () {
             var socket = io();
             $("#btnSend").click(function() {
-                //var data = { user: $("$user").val(), msg: $("#msg").val() };
                 if ($("#msg").val() != "")
                 {
                   socket.emit('chat message', { msg: $("#msg").val() });
-                  //socket.emit('chat message', data);
                   $("#msg").val("");
-                  //do a socket.broadcast.emit()
                   socket.emit('done typing');
-                  //$("#typing").empty();
                   return false;
                 }
             });

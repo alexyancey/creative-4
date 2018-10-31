@@ -30,9 +30,6 @@ io.on('connection', function(socket) {
       console.log(socket.username);
     })
     socket.on('chat message', function(data) {
-        //console.log("user: " + data.user);
-        //console.log("message: " + msg);
-        //io.emit('chat message', msg);
         io.sockets.emit('chat message', { msg: data.msg, user: socket.username });
     })
 });
@@ -40,5 +37,5 @@ io.on('connection', function(socket) {
 http.listen(4000, '0.0.0.0', function() {
     console.log('Creative Project 4 listening on port 4000!');
 })
-//10.37.134.204:4000
-//app.listen(port, () => console.log('Creative Project 4 listening on port 4000!'));
+//10.37.134.204:4000 (BYU Wi-Fi) => Use your own IP address when running locally
+//On Windows type 'ipconfig' into the command prompt or use your AWS IP
