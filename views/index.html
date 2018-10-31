@@ -11,7 +11,9 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <h1>Creative Node Project</h1>
+    <h1 style="text-align: center">Cool Chat App</h1>
+    <hr>
+    <h3>Messages</h3>
     <ul id="typing"></ul>
     <ul id="messages"></ul>
     <form action="">
@@ -26,12 +28,15 @@
             $("#btnSend").click(function() {
                 //var data = { user: $("$user").val(), msg: $("#msg").val() };
                 if ($("#msg").val() != "")
+                {
                   socket.emit('chat message', { msg: $("#msg").val() });
-                //socket.emit('chat message', data);
-                $("#msg").val("");
-                //do a socket.broadcast.emit()
-                $("#typing").empty();
-                return false;
+                  //socket.emit('chat message', data);
+                  $("#msg").val("");
+                  //do a socket.broadcast.emit()
+                  socket.emit('done typing');
+                  //$("#typing").empty();
+                  return false;
+                }
             });
             $("#btnUser").click(function() {
                 if ($("#user").val() != "")
@@ -47,6 +52,9 @@
             })
             socket.on('typing', (data) => {
                 $("#typing").html("<p><i>" + data.username + " is typing..." + "</i></p>");
+            })
+            socket.on('done typing', () => {
+                $("#typing").empty();
             })
         })
     </script>

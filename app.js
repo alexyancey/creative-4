@@ -22,7 +22,9 @@ io.on('connection', function(socket) {
     socket.on('typing', (data) => {
       socket.broadcast.emit('typing', { username: socket.username });
     })
-
+    socket.on('done typing', () => {
+      socket.broadcast.emit('done typing');
+    })
     socket.on('change username', (data) => {
       socket.username = data.user;
       console.log(socket.username);
