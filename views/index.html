@@ -12,22 +12,40 @@
 </head>
 <body>
     <h1>Creative Node Project</h1>
+    <p id="typing"></p>
     <ul id="messages"></ul>
     <form action="">
-        <input id="msg" autocomplete="off" /><button>Send</button>
+        <h6>Username:</h6>
+        <input id="user" autocomplete="off" placeholder="Username" /><button id="btnUser">Change Username</button>
+        <br>
+        <input id="msg" autocomplete="off" placeholder="Message" /><button id="btnSend">Send</button>
     </form>
     <script>
-        $(function () { 
+        $(function () {
             var socket = io();
-            $("form").submit(function() {
-                socket.emit('chat message', $("#msg").val());
+            $("#btnSend").click(function() {
+                //var data = { user: $("$user").val(), msg: $("#msg").val() };
+                if ($("#msg").val() != "")
+                  socket.emit('chat message', { msg: $("#msg").val() });
+                //socket.emit('chat message', data);
                 $("#msg").val("");
                 return false;
             });
-            socket.on('chat message', function(msg) {
-                $("#messages").append($("<li>").text(msg));
+            $("#btnUser").click(function() {
+                if ($("#user").val() != "")
+                  socket.emit('change username', { user: $("#user").val() });
+                return false;
+            })
+            socket.on('chat message', function(data) {
+                $("#messages").append($("<li>").text(data.user + ": " + data.msg));
                 window.scrollTo(0, document.body.scrollHeight);
             });
+            /*$("#msg")bind("keypress", () => {
+                socket.emit('typing');
+            })
+            socket.on('typing', (data) => {
+                $("#typing").val(data.username + " is typing...");
+            })*/
         })
     </script>
 </body>

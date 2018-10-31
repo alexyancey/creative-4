@@ -15,12 +15,23 @@ app.get('/', function(req, res) {
 
 io.on('connection', function(socket) {
     console.log('User connected');
+    socket.username = "Unknown";
     socket.on('disconnect', function() {
         console.log('User disconnected');
     });
-    socket.on('chat message', function(msg) {
-        console.log("message: " + msg);
-        io.emit('chat message', msg);
+    /*socket.on('typing', (data) => {
+      socket.broadcast.emit('typing', { username: socket.username });
+    })*/
+
+    socket.on('change username', (data) => {
+      socket.username = data.user;
+      console.log(socket.username);
+    })
+    socket.on('chat message', function(data) {
+        //console.log("user: " + data.user);
+        //console.log("message: " + msg);
+        //io.emit('chat message', msg);
+        io.sockets.emit('chat message', { msg: data.msg, user: socket.username });
     })
 });
 
