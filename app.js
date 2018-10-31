@@ -19,9 +19,9 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         console.log('User disconnected');
     });
-    /*socket.on('typing', (data) => {
+    socket.on('typing', (data) => {
       socket.broadcast.emit('typing', { username: socket.username });
-    })*/
+    })
 
     socket.on('change username', (data) => {
       socket.username = data.user;

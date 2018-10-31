@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Creative Node Project</h1>
-    <p id="typing"></p>
+    <ul id="typing"></ul>
     <ul id="messages"></ul>
     <form action="">
         <h6>Username:</h6>
@@ -29,6 +29,8 @@
                   socket.emit('chat message', { msg: $("#msg").val() });
                 //socket.emit('chat message', data);
                 $("#msg").val("");
+                //do a socket.broadcast.emit()
+                $("#typing").empty();
                 return false;
             });
             $("#btnUser").click(function() {
@@ -40,12 +42,12 @@
                 $("#messages").append($("<li>").text(data.user + ": " + data.msg));
                 window.scrollTo(0, document.body.scrollHeight);
             });
-            /*$("#msg")bind("keypress", () => {
+            $("#msg").bind("keypress", () => {
                 socket.emit('typing');
             })
             socket.on('typing', (data) => {
-                $("#typing").val(data.username + " is typing...");
-            })*/
+                $("#typing").html("<p><i>" + data.username + " is typing..." + "</i></p>");
+            })
         })
     </script>
 </body>
