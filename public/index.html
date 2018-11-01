@@ -11,14 +11,19 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <h1 style="text-align: center">Cool Chat App</h1>
+    <div id="header">
+        <h1 id ="header">Cool Chat App</h1>
+        <p>Chat with other people in the classroom! Enter your username and messages
+        down below. You need only set your username once, but you can reset it. Open
+        up a new tab to chat with another username.</p>
+    </div>
     <hr>
     <h3>Messages</h3>
     <ul id="typing"></ul>
     <ul id="messages"></ul>
     <form action="">
         <h6>Username:</h6>
-        <input id="user" autocomplete="off" placeholder="Username" /><button id="btnUser">Change Username</button>
+        <input id="user" autocomplete="off" placeholder="Username" /><button id="btnUser" onclick="userAlert()">Set Username</button>
         <br>
         <input id="msg" autocomplete="off" placeholder="Message" /><button id="btnSend">Send</button>
     </form>
