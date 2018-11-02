@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Creative 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+    <script src="/javascripts/script.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1 style="text-align: center">Cool Chat App</h1>
+    <hr>
+    <h3>Messages</h3>
+    <ul id="typing"></ul>
+    <ul id="messages"></ul>
+    <form action="">
+        <h6>Username:</h6>
+        <input id="user" autocomplete="off" placeholder="Username" /><button id="btnUser">Change Username</button>
+        <br>
+        <input id="msg" autocomplete="off" placeholder="Message" /><button id="btnSend">Send</button>
+    </form>
+    <script>
+        $(function () {
+            var socket = io();
+            $("#btnSend").click(function() {
+                if ($("#msg").val() != "")
+                {
+                  socket.emit('chat message', { msg: $("#msg").val() });
+                  $("#msg").val("");
+                  socket.emit('done typing');
+                  return false;
+                }
+            });
+            $("#btnUser").click(function() {
+                if ($("#user").val() != "")
+                  socket.emit('change username', { user: $("#user").val() });
+                return false;
+            })
+            socket.on('chat message', function(data) {
+                $("#messages").append($("<li>").text(data.user + ": " + data.msg));
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+            $("#msg").bind("keypress", () => {
+                socket.emit('typing');
+            })
+            socket.on('typing', (data) => {
+                $("#typing").html("<p><i>" + data.username + " is typing..." + "</i></p>");
+            })
+            socket.on('done typing', () => {
+                $("#typing").empty();
+            })
+        })
+    </script>
+</body>
+</html>

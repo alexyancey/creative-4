@@ -1,0 +1,70 @@
+//angular.module('app', []).controller('mainCtrl', mainCtrl);
+
+var express = require('express');
+var router = express.Router();
+var request = require('request');
+var resBody = "";
+
+
+/*function mainCtrl($scope)
+{
+    $scope.body = getBody();
+    if (resBody != "")
+    {
+        console.log(resBody);
+    }
+}*/
+
+function getBody()
+{
+    return resBody;
+}
+
+function setBody(body)
+{
+    resBody = body;
+}
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.sendFile('weather.html', { root:  'public' });
+});
+
+router.get('/getowlbot', function(req, res, next)
+{
+    var url = "https://owlbot.info/api/v1/dictionary/";
+    url += req.query.q;
+    url += "?format=json";
+    request(url).pipe(res);
+})
+
+router.get('/getcity',function(req, res, next) 
+{
+    var fs = require('fs');
+    fs.readFile(__dirname + '/cities.dat.txt', function(err,data) 
+    {
+        if(err) 
+            throw err;
+        var cities = data.toString().split("\n");
+        
+        for (var i = 0; i < cities.length; i++)
+        {
+            var myRe = new RegExp("^" + req.query.q);
+            var result = cities[i].search(myRe);
+            
+            var jsonresult = [];
+            for(var i = 0; i < cities.length; i++) 
+            {
+                var result = cities[i].search(myRe); 
+                if(result != -1) 
+                {
+                    console.log(cities[i]);
+                    jsonresult.push({city:cities[i]});
+                } 
+            }   
+        }
+        res.status(200).json(jsonresult);
+    });
+});
+
+module.exports = router;
